@@ -1,12 +1,17 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import HomePage from './components/HomePage'
 import Header from './components/Header'
 import FileDisplay from './components/FileDisplay'
+import Information from './components/Information'
+import Transcribing from './components/Transcribing'
 
 
 function App() {
 const [file,setFile] = useState(null)
 const [audioStream, setAudioStream] = useState(null)
+const [output, setOutput] = useState(null)
+const [loading, SetLoading] = useState(false)
+const [finished, setFinished] = useState(false)
 
 const isAudioAvailable = file || audioStream
 
@@ -16,13 +21,18 @@ function handleAudioReset() {
 }
 
 
+const worker = useRef(null)
 
 
   return (
     <div className='flex flex-col max-w-[10000px] mxx-auto w-full'>
       <section className='min-h-screen flex flex-col'>
        <Header/>
-       { isAudioAvailable ? (
+       {output ? (
+        <Information/>
+       ) : loading ? (
+       <Transcribing/>
+       ): isAudioAvailable ? (
        <FileDisplay handleAudioReset={handleAudioReset} file={file} audioStream={setAudioStream}/>
        ) :
         (<HomePage setFile={setFile} setAudioStream={setAudioStream}/>)}
