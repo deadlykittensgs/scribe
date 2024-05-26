@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Transcription from './Transcription'
-import Translation from './translation'
+
 
 export default function Information() {
 
